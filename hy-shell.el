@@ -251,8 +251,9 @@ Expected to be called within a Hy interpreter process buffer."
 (defun hy-shell-eval-current-form ()
   "Send form containing point to the Hy interpreter, starting up if needed."
   (interactive)
-  (hy-shell--eval-1
-    (hy--current-form-string)))
+  (save-window-excursion
+   (hy-shell--eval-1
+     (hy--current-form-string))))
 
 (defun hy-shell-eval-last-sexp ()
   "Send the last sexp to the Hy interpreter, starting up if needed."
@@ -263,15 +264,17 @@ Expected to be called within a Hy interpreter process buffer."
 (defun hy-shell-eval-region ()
   "Send region to the Hy interpreter, starting up if needed."
   (interactive)
-  (when (and (region-active-p) (not (region-noncontiguous-p)))
-    (hy-shell--eval-1
-      (buffer-substring (region-beginning) (region-end)))))
+  (save-window-excursion
+    (when (and (region-active-p) (not (region-noncontiguous-p)))
+     (hy-shell--eval-1
+       (buffer-substring (region-beginning) (region-end))))))
 
 (defun hy-shell-eval-buffer ()
   "Send the current buffer to the Hy interpreter, starting up if needed."
   (interactive)
-  (hy-shell--eval-1
-    (buffer-string)))
+  (save-window-excursion
+    (hy-shell--eval-1
+     (buffer-string))))
 
 ;;; Notifications
 
